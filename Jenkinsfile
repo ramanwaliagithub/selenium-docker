@@ -4,21 +4,18 @@ pipeline {
     stages {
         stage('Build Jar') {
             steps {
-                //sh
                 sh "mvn clean package -DskipTests"
             }
         }
         stage('Build Image') {
             steps {
-                //sh
                 sh "docker build -t='ramandocker009/selenium-docker' ."
             }
         }
         stage('Push Image') {
             steps {
 			    withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'pass', usernameVariable: 'user')]) {
-                    //sh
-			        sh "docker login --username=$ramandocker009 --password=$New@1234"
+			        sh "docker login --username=${user} --password=${pass}"
 			        sh "docker push ramandocker009/selenium-docker:latest"
 			    }                           
             }
